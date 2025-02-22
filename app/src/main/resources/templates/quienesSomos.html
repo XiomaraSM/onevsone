@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quienes Somos</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    
+    <!-- menu inicio header -->
+    <header th:replace="headerFooterFront :: headerFront"></header>
+
+    <!-- Seccion Quienes Somos  -->
+    <div class="container mt-5">
+      <h1 class="text-center">Quiénes Somos</h1>
+
+      <!-- imagen Banner  -->
+      <div class="row">
+        <div class="col-md-12">
+          <img src="/onevsoneBanner.png" class="img-fluid" alt="Banner" />
+        </div>
+      </div>
+
+      <!-- Nuestra Historia -->
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <h2>Nuestra Historia</h2>
+          <p>
+            En 2015, nació la idea de crear un salón de baile llamado Box Fusion
+            Latina, un espacio destinado a fomentar la danza y la actividad
+            física. Con el tiempo, este sueño fue creciendo y, para 2018,
+            logramos establecer un salón completo que albergaba no solo clases
+            de danza, sino también deportes de combate y entrenamiento físico.
+          </p>
+          <p>
+            En 2018, decidimos cambiar nuestro nombre a One vs One, reflejando
+            así nuestra visión ampliada y compromiso con la diversidad
+            deportiva. A partir de 2020, formalizamos nuestra entidad,
+            consolidando nuestra misión de ser un referente en la comunidad.
+          </p>
+          <p>
+            En 2024, celebramos la inauguración del segundo piso de nuestra
+            sede, un paso más en nuestra evolución. One vs One se caracteriza
+            por ser un centro de entrenamiento multideportivo que no solo se
+            enfoca en el desarrollo físico, sino que también promueve
+            actividades comunitarias. Colaboramos con clubes deportivos y
+            organizaciones sociales que buscan mejorar la calidad de vida de los
+            habitantes del Barrio La Rivera 1er Sector
+          </p>
+        </div>
+
+        <div class="col-md-12">
+          <h2>Misión</h2>
+          <p>
+            Nuestra misión es ser un centro de entrenamiento multideportivo que
+            promueva el bienestar físico y emocional de la comunidad. Nos
+            dedicamos a ofrecer un espacio inclusivo donde las personas de todas
+            las edades puedan participar en actividades de danza, deportes de
+            combate y entrenamiento físico. A través de nuestras iniciativas,
+            buscamos fomentar la integración social, el cuidado del medio
+            ambiente y el empoderamiento de los habitantes del Barrio La Rivera
+            1er Sector, colaborando con clubes deportivos y organizaciones
+            sociales para mejorar la calidad de vida de nuestra comunidad.
+          </p>
+          <h2>Visión</h2>
+          <p>
+            Nuestra visión es convertirnos en un referente comunitario en el
+            ámbito del deporte y la salud, reconocido por nuestra capacidad de
+            integrar y empoderar a las personas. Aspiramos a expandir nuestras
+            instalaciones y servicios, promoviendo un estilo de vida activo y
+            saludable que beneficie a toda la población. En One vs One,
+            imaginamos un futuro donde la actividad física y el trabajo en
+            comunidad se entrelazan para crear un entorno social más
+            cohesionado, solidario y sustentable.
+          </p>
+        </div>
+      </div>
+
+      <!-- Cuadro para el Video de YouTube -->
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <h2>Video de Presentación</h2>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe
+              class="embed-responsive-item"
+              th:src="'https://www.youtube.com/embed/nU7C3a505qg'"
+              allowfullscreen
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+    <!-- menu inicio footer -->
+    <footer th:replace="headerFooterFront :: footerFront"></footer>
+  </body>
+</html>

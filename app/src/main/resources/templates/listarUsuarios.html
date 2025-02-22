@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Participantes</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="icon" href="/favicon.ico" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <div th:insert="~{admin :: header}"></div>
+  <body>
+  
+    <div id="content" class="container mt-5">
+      <h1 class="text-center">Lista de Participantes</h1>
+      <button sec:authorize="hasRole('ADMIN')"
+        class="btn btn-primary mb-3"
+        data-toggle="modal"
+        data-target="#agregarUsuarioModal"
+      >
+        Agregar Usuario
+      </button>
+
+      <!-- Tabla de Usuario -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tipo Documento</th>
+            <th>Número Documento</th>
+            <th>Primer Nombre</th>
+            <th>Segundo Nombre</th>
+            <th>Primer Apellido</th>
+            <th>Segundo Apellido</th>
+            <th>Correo</th>
+            <th>Numero celular</th>
+            <th>Localidad</th>
+            <th>Barrio</th>
+            <th>Dirección</th>
+            <th sec:authorize="hasRole('ADMIN')">Rol</th>
+            <th sec:authorize="hasRole('ADMIN')">Contraseña</th>
+            <th sec:authorize="hasRole('ADMIN')">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="appUser : ${users}">
+            <td th:text="${appUser.id}"></td>
+            <td th:text="${appUser.tipoDocumento}"></td>
+            <td th:text="${appUser.numeroDocumento}"></td>
+            <td th:text="${appUser.primerNombre}"></td>
+            <td th:text="${appUser.segundoNombre}"></td>
+            <td th:text="${appUser.primerApellido}"></td>
+            <td th:text="${appUser.segundoApellido}"></td>
+            <td th:text="${appUser.email}"></td>
+            <td th:text="${appUser.celular}"></td>
+            <td th:text="${appUser.localidadBogota}"></td>
+            <td th:text="${appUser.barrio}"></td>
+            <td th:text="${appUser.direccion}"></td>
+            <td sec:authorize="hasRole('ADMIN')" th:text="${appUser.role}"></td>            
+            <td sec:authorize="hasRole('ADMIN')" th:text="${appUser.password}"></td>
+            <td>
+              <!-- Botón Editar -->
+              <button sec:authorize="hasRole('ADMIN')"
+                class="btn btn-warning btn-sm"
+                data-toggle="modal"
+                data-target="#editarUsuarioModal"
+                th:data-id="${appUser.id}"
+                th:data-tipo-documento="${appUser.tipoDocumento}"
+                th:data-numero-documento="${appUser.numeroDocumento}"
+                th:data-primer-nombre="${appUser.primerNombre}"
+                th:data-segundo-nombre="${appUser.segundoNombre}"
+                th:data-primer-apellido="${appUser.primerApellido}"
+                th:data-segundo-apellido="${appUser.segundoApellido}"
+                th:data-email="${appUser.email}"
+                th:data-celular="${appUser.celular}"
+                th:data-localidad-bogota="${appUser.localidadBogota}"
+                th:data-barrio="${appUser.barrio}"
+                th:data-direccion="${appUser.direccion}"
+                th:data-role="${appUser.role}"                
+                th:data-password="${appUser.password}"
+              >
+                Editar
+              </button>
+
+              <!-- Botón Eliminar -->
+              <a sec:authorize="hasRole('ADMIN')"
+                th:href="@{/users/eliminar/{id}(id=${appUser.id})}"
+                class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este Usuario?')"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <nav th:replace="~{paginator-nav :: paginator}"></nav>
+    </div>
+
+    <!-- Modal Agregar Usuarios -->
+    <div th:fragment="AgregarUsuario"
+      class="modal fade"
+      id="agregarUsuarioModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="agregarUsuarioModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form
+            th:action="@{/users/guardar}"
+            th:object="${appUser}"
+            method="post"
+          >
+            <div class="modal-header">
+              <h5 class="modal-title" id="agregarUsuarioModalLabel">
+                Agregar Usuario
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Cerrar"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="tipoDocumento">Tipo Documento</label>
+                <select
+                  class="form-control"
+                  th:field="*{tipoDocumento}"
+                  id="tipoDocumento"
+                  required
+                >
+                  <option th:value="CC">Cédula de Ciudadanía</option>
+                  <option th:value="TI">Tarjeta de Identidad</option>
+                  <option th:value="CE">Cédula de Extranjería</option>
+                  <option th:value="PAS">Pasaporte</option>
+                  <option th:value="NIT">NIT</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="numeroDocumento">Número Documento</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{numeroDocumento}"
+                  id="numeroDocumento"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="primerNombre">Primer Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{primerNombre}"
+                  id="primerNombre"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="nombre">Segundo Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{segundoNombre}"
+                  id="segundoNombre"
+                />
+              </div>
+              <div class="form-group">
+                <label for="primerApellido">Primer Apellido</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{primerApellido}"
+                  id="primerApellido"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="segundoApellido">Segundo Apellido</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{segundoApellido}"
+                  id="segundoApellido"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Correo</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  th:field="*{email}"
+                  id="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="celular">Celular</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{celular}"
+                  id="celular"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="localidadBogota">Localidad</label>
+                <select
+                  class="form-control"
+                  th:field="*{localidadBogota}"
+                  id="localidadBogota"
+                  required
+                >
+                  <option th:value="USAQUEN">USAQUEN</option>
+                  <option th:value="CHAPINERO">CHAPINERO</option>
+                  <option th:value="SANTAFE">SANTAFE</option>
+                  <option th:value="SAN_CRISTOBAL">SAN_CRISTOBAL</option>
+                  <option th:value="USME">USME</option>
+                  <option th:value="TUNJUELITO">TUNJUELITO</option>
+                  <option th:value="BOSA">BOSA</option>
+                  <option th:value="KENNEDY">KENNEDY</option>
+                  <option th:value="FONTIBON">FONTIBON</option>
+                  <option th:value="ENGATIVA">ENGATIVA</option>                  
+                  <option th:value="SUBA">SUBA</option>
+                  <option th:value="BARRIOS_UNIDOS">BARRIOS_UNIDOS</option>
+                  <option th:value="TEUSAQUILLO">TEUSAQUILLO</option>
+                  <option th:value="MARTIRES">MARTIRES</option>
+                  <option th:value="ANTONIO_NARINO">ANTONIO_NARINO</option>                        
+                  <option th:value="PUENTE_ARANDA">PUENTE_ARANDA</option>
+                  <option th:value="CANDELARIA">CANDELARIA</option>
+                  <option th:value="RAFAEL_URIBE_URIBE">RAFAEL_URIBE_URIBE</option>
+                  <option th:value="CIUDAD_BOLIVAR">CIUDAD_BOLIVAR</option>
+                  <option th:value="SUMAPAZ">SUMAPAZ</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="barrio">Barrio</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{barrio}"
+                  id="barrio"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="direccion">direccion</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{direccion}"
+                  id="direccion"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="role">Rol</label>
+                <select
+                  class="form-control"
+                  th:field="*{role}"
+                  id="role"
+                  required
+                >
+                  <option th:value="USUARIO">USUARIO</option>
+                  <option th:value="ENTRENADOR">ENTRENADOR</option>
+                  <option th:value="ADMINISTRADOR">ADMINISTRADOR</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="password">contraseña</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{password}"
+                  id="password"
+                  required
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- Modal Editar Usuario -->
+<div
+class="modal fade"
+id="editarUsuarioModal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="editarUsuarioModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form th:action="@{/users/actualizar}" th:object="${appUser}" method="post">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarUsuarioModalLabel">
+          Editar Usuario
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Cerrar"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" th:field="*{id}" id="id" />
+        <div class="form-group">
+          <label for="tipoDocumento">Tipo Documento</label>
+          <select
+            class="form-control"
+            th:field="*{tipoDocumento}"
+            id="tipoDocumento"
+            required
+          >
+            <option th:value="CC" th:text="'Cédula de Ciudadanía'"></option>
+            <option th:value="TI" th:text="'Tarjeta de Identidad'"></option>
+            <option th:value="CE" th:text="'Cédula de Extranjería'"></option>
+            <option th:value="PAS" th:text="'Pasaporte'"></option>
+            <option th:value="NIT" th:text="'NIT'"></option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="numeroDocumento">Número Documento</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{numeroDocumento}"
+            id="numeroDocumento"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="primerNombre">Primer Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{primerNombre}"
+            id="primerNombre"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="segundoNombre">Segundo Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{segundoNombre}"
+            id="segundoNombre"
+          />
+        </div>
+        <div class="form-group">
+          <label for="primerApellido">Primer Apellido</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{primerApellido}"
+            id="primerApellido"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="segundoApellido">Segundo Apellido</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{segundoApellido}"
+            id="segundoApellido"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo</label>
+          <input
+            type="email"
+            class="form-control"
+            th:field="*{email}"
+            id="email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="celular">Celular</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{celular}"
+            id="celular"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="localidadBogota">Localidad</label>
+          <select
+            class="form-control"
+            th:field="*{localidadBogota}"
+            id="localidadBogota"
+            required
+          >
+            <option th:value="USAQUEN">USAQUEN</option>
+            <option th:value="CHAPINERO">CHAPINERO</option>
+            <option th:value="SANTAFE">SANTAFE</option>
+            <option th:value="SAN_CRISTOBAL">SAN_CRISTOBAL</option>
+            <option th:value="USME">USME</option>
+            <option th:value="TUNJUELITO">TUNJUELITO</option>
+            <option th:value="BOSA">BOSA</option>
+            <option th:value="KENNEDY">KENNEDY</option>
+            <option th:value="FONTIBON">FONTIBON</option>
+            <option th:value="ENGATIVA">ENGATIVA</option>
+            <option th:value="SUBA">SUBA</option>
+            <option th:value="BARRIOS_UNIDOS">BARRIOS_UNIDOS</option>
+            <option th:value="TEUSAQUILLO">TEUSAQUILLO</option>
+            <option th:value="MARTIRES">MARTIRES</option>
+            <option th:value="ANTONIO_NARINO">ANTONIO_NARINO</option>
+            <option th:value="PUENTE_ARANDA">PUENTE_ARANDA</option>
+            <option th:value="CANDELARIA">CANDELARIA</option>
+            <option th:value="RAFAEL_URIBE_URIBE">RAFAEL_URIBE_URIBE</option>
+            <option th:value="CIUDAD_BOLIVAR">CIUDAD_BOLIVAR</option>
+            <option th:value="SUMAPAZ">SUMAPAZ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="barrio">Barrio</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{barrio}"
+            id="barrio"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="direccion">Dirección</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{direccion}"
+            id="direccion"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="role">Rol</label>
+          <select
+            class="form-control"
+            th:field="*{role}"
+            id="role"
+            required
+          >
+            <option th:value="USUARIO">USUARIO</option>
+            <option th:value="ENTRENADOR">ENTRENADOR</option>
+            <option th:value="ADMINISTRADOR">ADMINISTRADOR</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="password">contraseña</label>
+          <input
+            type="text"
+            class="form-control"
+            th:field="*{password}"
+            id="password"
+            required
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#editarUsuarioModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Botón que activa el modal
+                var id = button.data('id'); // ID del Usuario
+                var tipoDocumento = button.data('tipo-documento');
+                var numeroDocumento = button.data('numero-documento');
+                var primerNombre = button.data('primer-nombre');
+                var segundoNombre = button.data('segundo-nombre');
+                var primerApellido = button.data('primer-apellido');
+                var segundoApellido = button.data('segundo-apellido');
+                var email = button.data('email');
+                var celular = button.data('celular');
+                var localidadBogota = button.data('localidad-bogota');
+                var barrio = button.data('barrio');
+                var direccion = button.data('direccion');
+                var role = button.data('role');                
+                var password = button.data('password');
+    
+                var modal = $(this);
+                modal.find('.modal-body #id').val(id);
+                modal.find('.modal-body #tipoDocumento').val(tipoDocumento);
+                modal.find('.modal-body #numeroDocumento').val(numeroDocumento);
+                modal.find('.modal-body #primerNombre').val(primerNombre);
+                modal.find('.modal-body #segundoNombre').val(segundoNombre);
+                modal.find('.modal-body #primerApellido').val(primerApellido);
+                modal.find('.modal-body #segundoApellido').val(segundoApellido);
+                modal.find('.modal-body #email').val(email);
+                modal.find('.modal-body #celular').val(celular);
+                modal.find('.modal-body #localidadBogota').val(localidadBogota);
+                modal.find('.modal-body #barrio').val(barrio);
+                modal.find('.modal-body #direccion').val(direccion);
+                modal.find('.modal-body #role').val(role);                
+                modal.find('.modal-body #password').val(password);
+            });
+        });
+    </script>
+
+
+  </body>
+</html>

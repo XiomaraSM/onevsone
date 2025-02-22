@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f5f5; /* Fondo neutro */
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; /* Para organizar los elementos verticalmente */
+      }
+
+      .container {
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-color: #ffffff;
+        padding: 30px;
+      }
+
+      .left-side {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .left-side h1 {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #ffc107; /* Color vibrante similar a Tumblr */
+      }
+
+      .left-side p {
+        font-size: 1.2em;
+        color: #666;
+      }
+
+      .form-title {
+        font-size: 1.7em;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #333;
+      }
+
+      .form-label {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .btn-custom {
+        background-color: #ffc107;
+        color: white;
+        width: 100%;
+        padding: 12px;
+        border-radius: 5px;
+        border: none;
+        font-size: 1.1em;
+        margin-top: 20px;
+      }
+
+      .btn-custom2 {
+        background-color: #ff4000;
+        color: white;
+        width: 100%;
+        padding: 12px;
+        border-radius: 5px;
+        border: none;
+        font-size: 1.2em;
+        margin-top: 20px;
+      }
+
+      .btn-custom:hover {
+        background-color: #ffc107;
+      }
+
+      .btn-custom2:hover {
+        background-color: #ffc107;
+      }
+
+      .forgot-password {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .forgot-password a {
+        color: #ffc107;
+        text-decoration: none;
+      }
+
+      .forgot-password a:hover {
+        text-decoration: underline;
+      }
+
+      .create-account {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      /* Eliminar el subrayado del enlace */
+      .create-account a {
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+      }
+
+      .create-account a:hover {
+        text-decoration: underline;
+      }
+
+      /* Animación en la parte superior */
+      .top-animation {
+        background-image: url("https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWlobWhqb2h5MmUyeHpxYmEyY2xjZHNlY2xtZTl4Y3R1ZWRrOHRhcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/22jSuBNTo3CES1ix9P/giphy.webp"); /* URL directa del GIF */
+        background-size: cover;
+        background-position: center;
+        height: 210px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-side">
+        <img class="top-animation" />
+        <h1>One vs One</h1>
+        <p>
+          Vive tu vida y no dejes que la vida te viva <br />
+          ¡Compite contra ti mismo y vence todos los dias!
+        </p>
+      </div>
+      <form th:action="@{/login}" method="post">
+        <div class="form-title">Iniciar Sesión</div>
+
+        <!-- Campo de usuario -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="username"
+            placeholder="Correo electrónico"
+            required="required"
+          />
+        </div>
+
+        <!-- Campo de contraseña -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Contraseña"
+            required="required"
+          />
+          <button
+              type="button"
+              class="btn"
+              id="togglePassword"
+            >
+            🙈
+            </button>
+        </div>
+
+        <!-- Botón de inicio de sesión -->
+        <button type="submit" class="btn btn-custom">Ingresar</button>
+
+        <!-- Enlace para olvidar contraseña -->
+        <div class="forgot-password">
+          <a href="/forgot-password">¿Olvidaste la contraseña?</a>
+        </div>
+
+        <!-- Enlace para crear una nueva cuenta -->
+        <a href="/register" class="btn btn-custom2">Crear Cuenta</a>
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const togglePassword = document.getElementById("togglePassword");
+      const passwordField = document.getElementById("password");
+
+      togglePassword.addEventListener("click", function () {
+        // Alterna entre password y text
+        const type =
+          passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+
+        // Cambiar ícono o texto del botón
+        this.textContent = type === "password" ? "🙈" : "🙉";
+      });
+    </script>
+  </body>
+</html>

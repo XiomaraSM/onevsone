@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </head>
+  <body>
+    
+    
+    <!-- menu inicio header -->
+    <header th:replace="headerFooterFront :: headerFront"></header>
+
+    <main>
+      <div class="container mt-5">
+        <h1>Contáctanos</h1>
+
+        <!-- Sección del Calendario y Horario -->
+        <div class="mt-5">
+          <h2>Agenda una clase</h2>
+          <form th:action="@{/agendaClase/guardarYRedirigir}" th:object="${contacto}" method="post">
+            <input type="hidden" name="formType" value="agendarClase">            <div class="form-group">
+              <label for="nombresApellidos">Nombre Completo</label>
+              <input type="text" class="form-control" id="nombresApellidos" name="nombresApellidos" placeholder="Tu nombre completo" required>
+            </div>
+
+            <div class="form-group">
+              <label for="celular">Celular</label>
+              <input type="text" class="form-control" id="celular" name="celular" maxlength="15" placeholder="Tu número de celular" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Tu correo electrónico" required>
+            </div>
+
+            <div class="form-group">
+              <label for="fecha">Selecciona una Fecha</label>
+              <input type="date" class="form-control" id="fecha" name="fecha" required>
+            </div>
+
+            <div class="form-group">
+              <label for="horario">Selecciona un Horario</label>
+              <select class="form-control" id="horario" name="horario" required>
+                <option value="H_6_7_AM">6:00 AM - 7:00 AM</option>
+                <option value="H_7_8_AM">7:00 AM - 8:00 AM</option>
+                <option value="H_8_9_AM">8:00 AM - 9:00 AM</option>
+                <option value="H_6_7_PM">6:00 PM - 7:00 PM</option>
+                <option value="H_7_8_PM">7:00 PM - 8:00 PM</option>
+                <option value="H_8_9_PM">8:00 PM - 9:00 PM</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="categoria">Tipo de Clase</label>
+              <select class="form-control" id="categoria" name="categoria" required>
+                <option value="ENTRENAMIENTO_FISICO">Entrenamiento Físico</option>
+                <option value="DEPORTES_DE_COMBATE">Deportes de Combate</option>
+                <option value="DANZAS">Danzas</option>
+                <option value="PERSONALIZADO">Personalizado</option>
+                <option value="CAPOEIRA">Capoeira</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-warning">Agendar</button>
+          </form>
+        </div>
+
+        <!-- Mapa de Ubicación -->
+    <div class="mt-5">
+      <h2>Ubicación</h2>
+      <p>Cra 96 bis # 42 b 27 sur</p>
+      <div class="embed-responsive embed-responsive-16by9">
+          <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.9340215031437!2d-74.09171238485647!3d4.6482836431581!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f998a3b36e0f3%3A0xd9d9c4fa3678d2e4!2sCra.%2096%20Bis%20%2342b-27%2C%20Bogot%C3%A1%2C%20Colombia!5e0!3m2!1ses!2sco!4v1698273314734!5m2!1ses!2sco" 
+              width="600" 
+              height="450" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy"></iframe>
+      </div>
+  </div>
+
+        <!-- Formulario de PQRS -->
+        <div class="mt-5">
+          <h2>PQRS</h2>
+          <form th:action="@{/pqrs/guardar}" th:object="${contacto}" method="post">
+            <input type="hidden" name="formType" value="pqrs">            <div class="form-group">
+              <label for="nombresApellidos">Nombre Completo</label>
+              <input type="text" class="form-control" id="nombresApellidos" name="nombresApellidos" placeholder="Tu nombre completo" required>
+            </div>
+
+            <div class="form-group">
+              <label for="TipoDocumento">Tipo de Documento</label>
+              <select class="form-control" id="TipoDocumento" name="TipoDocumento" required>
+                <option th:value="CC">Cédula de Ciudadanía</option>
+                  <option th:value="TI">Tarjeta de Identidad</option>
+                  <option th:value="CE">Cédula de Extranjería</option>
+                  <option th:value="PAS">Pasaporte</option>
+                  <option th:value="NIT">NIT</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="numeroDocumento">número de Documento</label>
+              <input type="text" class="form-control" id="numeroDocumento" name="numeroDocumento" maxlength="15" placeholder="Tu número de Documento" required>
+            </div>
+
+            <div class="form-group">
+              <label for="celular">Celular</label>
+              <input type="text" class="form-control" id="celular" name="celular" maxlength="15" placeholder="Tu celular" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Tu correo electrónico" required>
+            </div>
+
+            <div class="form-group">
+              <label for="mensaje">Mensaje</label>
+              <textarea class="form-control" id="mensaje" name="mensaje" rows="4" placeholder="Tu mensaje"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-warning">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    
+    <!-- menu inicio footer -->
+    <footer th:replace="headerFooterFront :: footerFront"></footer>
+  </body>
+</html>
